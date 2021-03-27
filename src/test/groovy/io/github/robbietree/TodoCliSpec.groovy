@@ -1,4 +1,4 @@
-package io.robbietree
+package io.github.robbietree
 
 import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.spock.annotation.MicronautTest

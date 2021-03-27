@@ -1,5 +1,5 @@
 applicationType: default
-defaultPackage: io.robbietree
+defaultPackage: io.github.robbietree
 testFramework: spock
 sourceLanguage: java
 buildTool: gradle

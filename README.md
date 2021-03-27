@@ -1,12 +1,17 @@
-## Micronaut 2.4.1 Documentation
+## Requirements
 
-- [User Guide](https://docs.micronaut.io/2.4.1/guide/index.html)
-- [API Reference](https://docs.micronaut.io/2.4.1/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/2.4.1/guide/configurationreference.html)
-- [Micronaut Guides](https://guides.micronaut.io/index.html)
----
+[Todo Cli](https://time.geekbang.org/column/article/325594)
 
-## Feature http-client documentation
+## as jar
 
-- [Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
+```shell
+java -jar build/libs/todo-cli-*-all.jar -h
+```
 
+
+
+## native-image
+
+```shell
+./build-native.sh
+```
