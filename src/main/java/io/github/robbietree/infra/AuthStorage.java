@@ -22,7 +22,7 @@ public class AuthStorage {
 
     public static void set(String username, boolean success) {
         String line = String.format("%s=%s", username, Boolean.toString(success));
-        FileUtils.writeLine(LOCATION, line);
+        FileUtils.replaceLine(LOCATION, line);
     }
 
     public static void removeUser(String username) {

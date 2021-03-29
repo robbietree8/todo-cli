@@ -35,6 +35,14 @@ public class FileUtils {
         }
     }
 
+    public static void replaceLine(Path path, String line) {
+        try {
+            Files.write(path, (line + System.lineSeparator()).getBytes(StandardCharsets.UTF_8), StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            throw new IllegalStateException("Can not write file " + path);
+        }
+    }
+
     public static void writeLines(Path path, List<String> lines) {
         lines.forEach(line -> writeLine(path, line));
     }
