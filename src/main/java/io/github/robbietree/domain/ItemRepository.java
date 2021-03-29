@@ -6,13 +6,13 @@ import java.util.Optional;
 public interface ItemRepository {
     Long save(Item item);
 
-    Collection<Item> listAll();
+    Collection<Item> listAll(String username);
 
-    Long nextIndex();
+    Long nextIndex(String username);
 
-    Optional<Item> findByIndex(Long index);
+    Optional<Item> findByIndex(String username, Long index);
 
     void update(Item item);
 
-    Collection<Item> listUnDone();
+    Collection<Item> listUnDone(String username);
 }

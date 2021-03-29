@@ -2,6 +2,7 @@ package io.github.robbietree.command;
 
 import io.github.robbietree.domain.Item;
 import io.github.robbietree.domain.ItemRepository;
+import io.github.robbietree.infra.AuthStorage;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
@@ -18,7 +19,9 @@ public class DoneCommand implements Runnable {
 
     @Override
     public void run() {
-        Optional<Item> itemOpt = itemRepository.findByIndex(index);
+        String currentUser = AuthStorage.getCurrentUser();
+
+        Optional<Item> itemOpt = itemRepository.findByIndex(currentUser, index);
 
         if(!itemOpt.isPresent()) {
             System.out.println("No item found");

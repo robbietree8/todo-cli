@@ -15,39 +15,41 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * index \t status \t content
+ * index \t status \t username \t content
  */
 @Primary
 @Singleton
 public class FileItemRepository implements ItemRepository {
     @Override
     public Long save(Item item) {
-        final String line = String.format("%d\t%s\t%s", item.getIndex(), item.getStatus(), item.getContent());
+        final String line = String.format("%d\t%s\t%s\t%s", item.getIndex(), item.getStatus(), item.getUsername(), item.getContent());
         TodoStorage.write(line);
         return item.getIndex();
     }
 
     @Override
-    public Collection<Item> listAll() {
+    public Collection<Item> listAll(String username) {
         final List<String> lines = TodoStorage.read();
         return lines.stream()
                     .map(line -> line.split("\t"))
-                    .map(e -> new Item(Long.valueOf(e[0]), ItemStatusEnum.valueOf(e[1]), e[2]))
+                    .map(e -> new Item(Long.valueOf(e[0]), ItemStatusEnum.valueOf(e[1]), e[2], e[3]))
+                    .filter(i -> Objects.equals(username, i.getUsername()))
                     .collect(Collectors.toList());
     }
 
     @Override
-    public Long nextIndex() {
-        return listAll()
+    public Long nextIndex(String username) {
+        return listAll(username)
                 .stream()
+                .filter(x -> Objects.equals(username, x.getUsername()))
                 .max(Comparator.comparing(Item::getIndex))
                 .map(item -> item.getIndex() + 1)
                 .orElse(1L);
     }
 
     @Override
-    public Optional<Item> findByIndex(Long index) {
-        return listAll()
+    public Optional<Item> findByIndex(String username, Long index) {
+        return listAll(username)
                 .stream()
                 .filter(i -> Objects.equals(index, i.getIndex()))
                 .findFirst();
@@ -56,7 +58,7 @@ public class FileItemRepository implements ItemRepository {
     @Override
     public void update(Item item) {
         Collection<Item> newItems = new ArrayList<>();
-        for (Item ele : listAll()) {
+        for (Item ele : listAll(item.getUsername())) {
             if(Objects.equals(item.getIndex(), ele.getIndex())) {
                 newItems.add(item);
             }else {
@@ -69,8 +71,8 @@ public class FileItemRepository implements ItemRepository {
     }
 
     @Override
-    public Collection<Item> listUnDone() {
-        return listAll()
+    public Collection<Item> listUnDone(String username) {
+        return listAll(username)
                 .stream()
                 .filter(Item::notDone)
                 .collect(Collectors.toList());

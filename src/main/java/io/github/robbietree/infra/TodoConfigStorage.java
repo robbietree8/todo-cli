@@ -4,9 +4,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class TodoStorage {
+public class TodoConfigStorage {
     static final Path LOCATION = Paths.get(String.format(
-            "%s/.todo-cli/todos.csv",
+            "%s/.todo-cli/.todo-config",
             System.getenv("HOME"))
     );
 
@@ -18,11 +18,4 @@ public class TodoStorage {
         return FileUtils.lines(LOCATION);
     }
 
-    public static void write(String line) {
-        FileUtils.writeLine(LOCATION, line);
-    }
-
-    public static void truncate() {
-        FileUtils.truncate(LOCATION);
-    }
 }
