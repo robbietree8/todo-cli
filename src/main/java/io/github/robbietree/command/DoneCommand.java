@@ -8,7 +8,7 @@ import picocli.CommandLine.Parameters;
 import javax.inject.Inject;
 import java.util.Optional;
 
-@Command(name = "done", description = "Complete todo item", mixinStandardHelpOptions = true)
+@Command(name = "done", description = "Complete one todo item", mixinStandardHelpOptions = true)
 public class DoneCommand implements Runnable {
     @Parameters(description = "item index.")
     Long index;
@@ -29,6 +29,6 @@ public class DoneCommand implements Runnable {
         item.markAsDone();
         itemRepository.update(item);
 
-        System.out.printf("Item %d done.",item.getIndex());
+        System.out.printf("Item %d done.\n",item.getIndex());
     }
 }

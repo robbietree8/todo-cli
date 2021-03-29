@@ -35,7 +35,7 @@ public class ListCommand implements Runnable {
         final long totalCount = items.size();
         final long doneCount = items.stream().filter(Item::isDone).count();
 
-        System.out.printf("\n\nTotal: %d items, %d item done", totalCount, doneCount);
+        System.out.printf("\n\nTotal: %d items, %d item done\n", totalCount, doneCount);
     }
 
     private void print(Item item) {

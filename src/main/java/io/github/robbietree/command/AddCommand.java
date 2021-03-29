@@ -7,7 +7,7 @@ import picocli.CommandLine.Parameters;
 
 import javax.inject.Inject;
 
-@Command(name = "add", description = "Add todo items.", mixinStandardHelpOptions = true)
+@Command(name = "add", description = "Add todo item.", mixinStandardHelpOptions = true)
 public class AddCommand implements Runnable {
     @Parameters(description = "Item content.")
     String content = "";
