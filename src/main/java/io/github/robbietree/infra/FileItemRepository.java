@@ -28,18 +28,15 @@ public class FileItemRepository implements ItemRepository {
     }
 
     @Override
-    public Collection<Item> listAll(String username) {
-        final List<String> lines = TodoStorage.read();
-        return lines.stream()
-                    .map(line -> line.split("\t"))
-                    .map(e -> new Item(Long.valueOf(e[0]), ItemStatusEnum.valueOf(e[1]), e[2], e[3]))
-                    .filter(i -> Objects.equals(username, i.getUsername()))
-                    .collect(Collectors.toList());
+    public Collection<Item> listAllByUser(String username) {
+        return listAll().stream()
+                        .filter(i -> Objects.equals(username, i.getUsername()))
+                        .collect(Collectors.toList());
     }
 
     @Override
     public Long nextIndex(String username) {
-        return listAll(username)
+        return listAllByUser(username)
                 .stream()
                 .filter(x -> Objects.equals(username, x.getUsername()))
                 .max(Comparator.comparing(Item::getIndex))
@@ -49,7 +46,7 @@ public class FileItemRepository implements ItemRepository {
 
     @Override
     public Optional<Item> findByIndex(String username, Long index) {
-        return listAll(username)
+        return listAllByUser(username)
                 .stream()
                 .filter(i -> Objects.equals(index, i.getIndex()))
                 .findFirst();
@@ -58,7 +55,7 @@ public class FileItemRepository implements ItemRepository {
     @Override
     public void update(Item item) {
         Collection<Item> newItems = new ArrayList<>();
-        for (Item ele : listAll(item.getUsername())) {
+        for (Item ele : listAllByUser(item.getUsername())) {
             if(Objects.equals(item.getIndex(), ele.getIndex())) {
                 newItems.add(item);
             }else {
@@ -66,15 +63,30 @@ public class FileItemRepository implements ItemRepository {
             }
         }
 
+        final List<Item> otherItems =
+                listAll().stream()
+                         .filter(i -> !Objects.equals(item.getUsername(), i.getUsername()))
+                         .collect(Collectors.toList());
+
+        newItems.addAll(otherItems);
+
         TodoStorage.truncate();
         newItems.forEach(this::save);
     }
 
     @Override
     public Collection<Item> listUnDone(String username) {
-        return listAll(username)
+        return listAllByUser(username)
                 .stream()
                 .filter(Item::notDone)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Item> listAll() {
+        return TodoStorage.read().stream()
+                          .map(line -> line.split("\t"))
+                          .map(e -> new Item(Long.valueOf(e[0]), ItemStatusEnum.valueOf(e[1]), e[2], e[3]))
+                          .collect(Collectors.toList());
     }
 }

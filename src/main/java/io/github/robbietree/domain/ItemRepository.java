@@ -6,7 +6,7 @@ import java.util.Optional;
 public interface ItemRepository {
     Long save(Item item);
 
-    Collection<Item> listAll(String username);
+    Collection<Item> listAllByUser(String username);
 
     Long nextIndex(String username);
 
@@ -15,4 +15,6 @@ public interface ItemRepository {
     void update(Item item);
 
     Collection<Item> listUnDone(String username);
+
+    Collection<Item> listAll();
 }

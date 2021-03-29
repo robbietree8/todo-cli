@@ -23,7 +23,7 @@ public class ListCommand implements Runnable {
 
         Collection<Item> items;
         if(all) {
-            items = itemRepository.listAll(currentUser);
+            items = itemRepository.listAllByUser(currentUser);
         }else {
             items = itemRepository.listUnDone(currentUser);
         }
