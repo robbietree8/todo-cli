@@ -3,14 +3,14 @@ package io.github.robbietree.command;
 import io.github.robbietree.domain.Item;
 import io.github.robbietree.domain.ItemRepository;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 import javax.inject.Inject;
 import java.util.Optional;
 
 @Command(name = "done", description = "Complete todo item", mixinStandardHelpOptions = true)
 public class DoneCommand implements Runnable {
-    @Option(names = {"-i", "--index"}, description = "item index.")
+    @Parameters(description = "item index.")
     Long index;
 
     @Inject

@@ -3,13 +3,13 @@ package io.github.robbietree.command;
 import io.github.robbietree.domain.Item;
 import io.github.robbietree.domain.ItemRepository;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 import javax.inject.Inject;
 
 @Command(name = "add", description = "Add todo items.", mixinStandardHelpOptions = true)
 public class AddCommand implements Runnable {
-    @Option(names = {"-d", "--data"}, description = "Item content.")
+    @Parameters(description = "Item content.")
     String content = "";
 
     @Inject
