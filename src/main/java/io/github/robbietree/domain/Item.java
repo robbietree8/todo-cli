@@ -6,16 +6,18 @@ import io.micronaut.core.annotation.Introspected;
 public class Item {
     private Long index;
     private String content;
+    private String username;
     private ItemStatusEnum status;
 
-    public Item(Long index, ItemStatusEnum status, String content) {
+    public Item(Long index, ItemStatusEnum status, String username, String content) {
         this.index = index;
         this.status = status;
+        this.username = username;
         this.content = content;
     }
 
-    public static Item create(Long index, String content) {
-        return new Item(index, ItemStatusEnum.INIT, content);
+    public static Item create(Long index, String username, String content) {
+        return new Item(index, ItemStatusEnum.INIT, username, content);
     }
 
     public Long getIndex() {
@@ -40,6 +42,14 @@ public class Item {
 
     public void setStatus(ItemStatusEnum status) {
         this.status = status;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void markAsDone() {

@@ -2,6 +2,7 @@ package io.github.robbietree.command;
 
 import io.github.robbietree.domain.Item;
 import io.github.robbietree.domain.ItemRepository;
+import io.github.robbietree.infra.AuthStorage;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
@@ -17,9 +18,11 @@ public class AddCommand implements Runnable {
 
     @Override
     public void run() {
-        Long nextIndex = itemRepository.nextIndex();
+        String currentUser = AuthStorage.getCurrentUser();
 
-        Item item = Item.create(nextIndex, content);
+        Long nextIndex = itemRepository.nextIndex(currentUser);
+
+        Item item = Item.create(nextIndex, currentUser, content);
         itemRepository.save(item);
 
         System.out.printf("\n%d. %s\n", nextIndex, content);

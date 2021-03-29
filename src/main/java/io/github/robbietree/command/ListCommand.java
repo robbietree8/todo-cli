@@ -2,6 +2,7 @@ package io.github.robbietree.command;
 
 import io.github.robbietree.domain.Item;
 import io.github.robbietree.domain.ItemRepository;
+import io.github.robbietree.infra.AuthStorage;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -18,11 +19,13 @@ public class ListCommand implements Runnable {
 
     @Override
     public void run() {
+        String currentUser = AuthStorage.getCurrentUser();
+
         Collection<Item> items;
         if(all) {
-            items = itemRepository.listAll();
+            items = itemRepository.listAll(currentUser);
         }else {
-            items = itemRepository.listUnDone();
+            items = itemRepository.listUnDone(currentUser);
         }
 
         if(items.isEmpty()) {
