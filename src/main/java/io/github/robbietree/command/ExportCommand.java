@@ -24,6 +24,6 @@ public class ExportCommand implements Runnable {
     }
 
     private void printItem(Item item) {
-        System.out.printf("%d\t%s\t%s\n", item.getIndex(), item.getStatus().name(), item.getContent());
+        System.out.printf("%d\t%s\t%s\n", item.getItemIndex(), item.getStatus().name(), item.getContent());
     }
 }

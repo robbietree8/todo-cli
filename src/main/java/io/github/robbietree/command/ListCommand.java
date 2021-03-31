@@ -43,9 +43,9 @@ public class ListCommand implements Runnable {
 
     private void print(Item item) {
         if(item.isDone()) {
-            System.out.printf("%d. [DONE] %s\n", item.getIndex(), item.getContent());
+            System.out.printf("%d. [DONE] %s\n", item.getItemIndex(), item.getContent());
         }else {
-            System.out.printf("%d. %s\n", item.getIndex(), item.getContent());
+            System.out.printf("%d. %s\n", item.getItemIndex(), item.getContent());
         }
     }
 }
