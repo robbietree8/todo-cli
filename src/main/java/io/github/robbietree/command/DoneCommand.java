@@ -32,6 +32,6 @@ public class DoneCommand implements Runnable {
         item.markAsDone();
         itemRepository.update(item);
 
-        System.out.printf("Item %d done.\n",item.getIndex());
+        System.out.printf("Item %d done.\n",item.getItemIndex());
     }
 }

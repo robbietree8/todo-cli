@@ -4,13 +4,16 @@ import io.micronaut.core.annotation.Introspected;
 
 @Introspected
 public class Item {
-    private Long index;
+    private Long itemIndex;
     private String content;
     private String username;
     private ItemStatusEnum status;
 
-    public Item(Long index, ItemStatusEnum status, String username, String content) {
-        this.index = index;
+    public Item() {
+    }
+
+    public Item(Long itemIndex, ItemStatusEnum status, String username, String content) {
+        this.itemIndex = itemIndex;
         this.status = status;
         this.username = username;
         this.content = content;
@@ -20,12 +23,12 @@ public class Item {
         return new Item(index, ItemStatusEnum.INIT, username, content);
     }
 
-    public Long getIndex() {
-        return index;
+    public Long getItemIndex() {
+        return itemIndex;
     }
 
-    public void setIndex(Long index) {
-        this.index = index;
+    public void setItemIndex(Long itemIndex) {
+        this.itemIndex = itemIndex;
     }
 
     public String getContent() {
@@ -62,5 +65,15 @@ public class Item {
 
     public boolean notDone() {
         return !isDone();
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "itemIndex=" + itemIndex +
+                ", content='" + content + '\'' +
+                ", username='" + username + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

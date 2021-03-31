@@ -4,6 +4,7 @@ import io.github.robbietree.command.AddCommand;
 import io.github.robbietree.command.DoneCommand;
 import io.github.robbietree.command.ExportCommand;
 import io.github.robbietree.command.ImportCommand;
+import io.github.robbietree.command.InitCommand;
 import io.github.robbietree.command.ListCommand;
 import io.github.robbietree.command.LoginCommand;
 import io.github.robbietree.command.LogoutCommand;
@@ -13,8 +14,7 @@ import io.github.robbietree.infra.TodoStorage;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import picocli.CommandLine.Command;
 
-@Command(name = "todo", description = "...",
-        mixinStandardHelpOptions = true,
+@Command(name = "todo", description = "todo commands", mixinStandardHelpOptions = true,
         subcommands = {
                 AddCommand.class,
                 ListCommand.class,
@@ -22,8 +22,8 @@ import picocli.CommandLine.Command;
                 LoginCommand.class,
                 LogoutCommand.class,
                 ExportCommand.class,
-                ImportCommand.class
-        })
+                ImportCommand.class,
+                InitCommand.class})
 public class TodoCliCommand implements Runnable {
     @Override
     public void run() {
