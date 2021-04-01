@@ -1,4 +1,4 @@
-package io.github.robbietree.infra;
+package io.github.robbietree.utils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

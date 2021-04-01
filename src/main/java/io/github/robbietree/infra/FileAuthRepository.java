@@ -3,13 +3,11 @@ package io.github.robbietree.infra;
 import io.github.robbietree.domain.AuthRepository;
 import io.github.robbietree.domain.Authentication;
 
-import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@Singleton
 public class FileAuthRepository implements AuthRepository {
 
     @Override

@@ -3,9 +3,7 @@ package io.github.robbietree.infra;
 import io.github.robbietree.domain.Item;
 import io.github.robbietree.domain.ItemRepository;
 import io.github.robbietree.domain.ItemStatusEnum;
-import io.micronaut.context.annotation.Primary;
 
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,8 +14,6 @@ import java.util.stream.Collectors;
 /**
  * index \t status \t username \t content
  */
-@Primary
-@Singleton
 public class FileItemRepository implements ItemRepository {
     @Override
     public Long save(Item item) {
