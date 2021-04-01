@@ -1,8 +1,8 @@
 package io.github.robbietree.command;
 
 import io.github.robbietree.domain.Item;
-import io.github.robbietree.domain.ItemRepository;
 import io.github.robbietree.domain.SessionRepository;
+import io.github.robbietree.domain.service.ListService;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -15,21 +15,16 @@ public class ListCommand implements Runnable {
     private boolean all;
 
     @Inject
-    private ItemRepository itemRepository;
+    private SessionRepository sessionRepository;
 
     @Inject
-    private SessionRepository sessionRepository;
+    private ListService listService;
 
     @Override
     public void run() {
         String currentUser = sessionRepository.getCurrentUser();
 
-        Collection<Item> items;
-        if(all) {
-            items = itemRepository.listAllByUser(currentUser);
-        }else {
-            items = itemRepository.listUnDone(currentUser);
-        }
+        Collection<Item> items = listService.list(currentUser, all);
 
         if(items.isEmpty()) {
             System.out.println("No items found");

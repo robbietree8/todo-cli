@@ -1,14 +1,11 @@
 package io.github.robbietree.command;
 
-import io.github.robbietree.domain.Item;
-import io.github.robbietree.domain.ItemRepository;
 import io.github.robbietree.domain.SessionRepository;
-import io.github.robbietree.utils.FileUtils;
+import io.github.robbietree.domain.service.ImportService;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 import javax.inject.Inject;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Command(name = "import", description = "import todo items", mixinStandardHelpOptions = true)
@@ -17,26 +14,16 @@ public class ImportCommand implements Runnable {
     Path path;
 
     @Inject
-    ItemRepository itemRepository;
+    SessionRepository sessionRepository;
 
     @Inject
-    SessionRepository sessionRepository;
+    ImportService importService;
 
     @Override
     public void run() {
         final String currentUser = sessionRepository.getCurrentUser();
 
-        if(!Files.exists(path)) {
-            System.out.println("provided file does not exist");
-            return;
-        }
-
-        for (String line : FileUtils.lines(path)) {
-            String[] ele = line.split("\t");
-
-            Item item = Item.create(itemRepository.nextIndex(currentUser), currentUser, ele[2]);
-            itemRepository.save(item);
-        }
+        importService.importItems(currentUser, path);
 
         System.out.println("Import success!");
     }

@@ -1,6 +1,7 @@
 package io.github.robbietree.command;
 
 import io.github.robbietree.domain.SessionRepository;
+import io.github.robbietree.domain.service.LogoutService;
 import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
@@ -10,11 +11,13 @@ import java.util.Optional;
 public class LogoutCommand implements Runnable {
     @Inject
     SessionRepository sessionRepository;
+    @Inject
+    LogoutService logoutService;
 
     @Override
     public void run() {
         final Optional<String> currentUserOpt = sessionRepository.currentUser();
-        currentUserOpt.ifPresent(u -> sessionRepository.removeUser(u));
+        currentUserOpt.ifPresent(u -> logoutService.logout(u));
         System.out.println("Logout success!");
     }
 }

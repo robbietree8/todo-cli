@@ -1,8 +1,7 @@
 package io.github.robbietree.command;
 
-import io.github.robbietree.domain.Item;
-import io.github.robbietree.domain.ItemRepository;
 import io.github.robbietree.domain.SessionRepository;
+import io.github.robbietree.domain.service.AddService;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
@@ -14,19 +13,18 @@ public class AddCommand implements Runnable {
     String content = "";
 
     @Inject
-    ItemRepository itemRepository;
+    SessionRepository sessionRepository;
 
     @Inject
-    SessionRepository sessionRepository;
+    AddService addService;
 
     @Override
     public void run() {
         String currentUser = sessionRepository.getCurrentUser();
 
-        Long nextIndex = itemRepository.nextIndex(currentUser);
+        addService.add(currentUser, content);
 
-        Item item = Item.create(nextIndex, currentUser, content);
-        itemRepository.save(item);
+        Long nextIndex = addService.add(currentUser, content);
 
         System.out.printf("\n%d. %s\n", nextIndex, content);
         System.out.printf("\nItem %d added\n", nextIndex);
