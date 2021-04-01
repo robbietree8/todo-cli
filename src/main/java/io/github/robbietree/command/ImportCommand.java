@@ -3,7 +3,6 @@ package io.github.robbietree.command;
 import io.github.robbietree.domain.Item;
 import io.github.robbietree.domain.ItemRepository;
 import io.github.robbietree.domain.SessionRepository;
-import io.github.robbietree.infra.AuthStorage;
 import io.github.robbietree.utils.FileUtils;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;

@@ -3,7 +3,10 @@ package io.github.robbietree.infra;
 import io.github.robbietree.domain.Item;
 import io.github.robbietree.domain.ItemRepository;
 import io.github.robbietree.domain.ItemStatusEnum;
+import io.github.robbietree.utils.FileUtils;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,10 +18,19 @@ import java.util.stream.Collectors;
  * index \t status \t username \t content
  */
 public class FileItemRepository implements ItemRepository {
+    static final Path LOCATION = Paths.get(String.format(
+            "%s/.todo-cli/todos.csv",
+            System.getenv("HOME"))
+    );
+
+    public FileItemRepository() {
+        FileUtils.createFile(LOCATION);
+    }
+
     @Override
     public Long save(Item item) {
         final String line = String.format("%d\t%s\t%s\t%s", item.getItemIndex(), item.getStatus(), item.getUsername(), item.getContent());
-        TodoStorage.write(line);
+        FileUtils.appendLine(LOCATION, line);
         return item.getItemIndex();
     }
 
@@ -55,14 +67,14 @@ public class FileItemRepository implements ItemRepository {
 
         newItems.addAll(otherItems);
 
-        TodoStorage.truncate();
+        FileUtils.truncate(LOCATION);
         newItems.forEach(this::save);
     }
 
 
     @Override
     public Collection<Item> listAll() {
-        return TodoStorage.read().stream()
+        return FileUtils.lines(LOCATION).stream()
                           .map(line -> line.split("\t"))
                           .map(e -> new Item(Long.valueOf(e[0]), ItemStatusEnum.valueOf(e[1]), e[2], e[3]))
                           .collect(Collectors.toList());

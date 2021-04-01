@@ -1,32 +1,44 @@
 package io.github.robbietree.infra;
 
 import io.github.robbietree.domain.SessionRepository;
+import io.github.robbietree.utils.FileUtils;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FileSessionRepository implements SessionRepository {
+    static final Path LOCATION = Paths.get(String.format(
+            "%s/.todo-cli/authentication",
+            System.getenv("HOME"))
+    );
+
+    public FileSessionRepository() {
+        FileUtils.createFile(LOCATION);
+    }
+
     @Override
     public void createSession(String username) {
-        AuthStorage.overwrite(username);
+        FileUtils.overwrite(LOCATION, username);
     }
 
     @Override
     public void removeUser(String username) {
         final List<String> newLines =
-                AuthStorage.read().stream()
+                FileUtils.lines(LOCATION).stream()
                       .filter(x -> !x.startsWith(username + "="))
                       .collect(Collectors.toList());
 
-        AuthStorage.truncate();
+        FileUtils.truncate(LOCATION);
 
-        AuthStorage.write(newLines);
+        FileUtils.appendLines(LOCATION, newLines);
     }
 
     @Override
     public Optional<String> currentUser() {
-        return AuthStorage.read().stream()
+        return FileUtils.lines(LOCATION).stream()
                      .filter(x -> x.endsWith("=true"))
                      .map(x -> x.split("=")[0])
                      .findFirst();
