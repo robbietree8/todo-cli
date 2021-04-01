@@ -5,59 +5,7 @@
 
 ## 设计
 
-```plantuml
-package domain {
-    class Item {
-        Long index;
-        String content;
-        ItemStatusEnum status;
-        String username;//phase2
-    }
-    
-    interface ItemRepository {
-        Long save(Item item);
-        
-        Collection<Item> listAll();
-        
-        Long nextIndex();
-    
-        Optional<Item> findByIndex(Long index);
-    
-        void update(Item item);
-    
-        Collection<Item> listUnDone();
-    }
-
-    enum ItemStatus {
-        INIT, DONE
-    }
-}
-
-package command {
-    class AddCommand {
-    }
-    
-    class DoneCommand {
-    }
-    
-    class ListCommand {
-    }
-}
-
-package infra {
-    class FileItemRepository implements ItemRepository {
-    
-    }
-}
-
-class TodoCliCommand {
-    void main();
-}
-
-TodoCliCommand *-- AddCommand
-TodoCliCommand *-- ListCommand
-TodoCliCommand *-- DoneCommand
-```
+![system design](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/robbietree/todo-cli/master/assets/design.puml)
 
 
 ## jar包形式运行
