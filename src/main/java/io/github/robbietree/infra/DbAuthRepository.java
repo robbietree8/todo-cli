@@ -14,11 +14,11 @@ public class DbAuthRepository implements AuthRepository {
     public boolean auth(String username, String password) {
         QueryRunner queryRunner = JdbcUtils.queryRunner();
 
-        ResultSetHandler<String> h = new BeanHandler<>(String.class);
+        ResultSetHandler<UsernameWrapper> h = new BeanHandler<>(UsernameWrapper.class);
         try {
-            final String rtn = queryRunner.query("select username from auth where username = ? and password = ?",
+            final UsernameWrapper rtn = queryRunner.query("select username from auth where username = ? and password = ?",
                     h, username, password);
-            return Objects.equals(username, rtn);
+            return !Objects.isNull(rtn) && Objects.equals(username, rtn.getUsername());
         } catch (SQLException throwable) {
             throw new IllegalStateException("auth failed " + throwable.getMessage());
         }

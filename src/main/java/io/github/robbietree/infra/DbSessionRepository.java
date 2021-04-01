@@ -1,6 +1,5 @@
 package io.github.robbietree.infra;
 
-import io.github.robbietree.domain.Item;
 import io.github.robbietree.domain.SessionRepository;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -36,11 +35,11 @@ public class DbSessionRepository implements SessionRepository {
     public Optional<String> currentUser() {
         QueryRunner queryRunner = JdbcUtils.queryRunner();
 
-        ResultSetHandler<CurrentUser> h = new BeanHandler<>(CurrentUser.class);
+        ResultSetHandler<UsernameWrapper> h = new BeanHandler<>(UsernameWrapper.class);
 
         try{
-            final CurrentUser currentUser = queryRunner.query("select username from session limit 1", h);
-            return Optional.ofNullable(currentUser).map(CurrentUser::getUsername);
+            final UsernameWrapper currentUser = queryRunner.query("select username from session order by create_time desc limit 1", h);
+            return Optional.ofNullable(currentUser).map(UsernameWrapper::getUsername);
         } catch (SQLException throwable) {
             throw new IllegalStateException("find by index failed " + throwable.getMessage());
         }

@@ -1,6 +1,6 @@
 package io.github.robbietree.infra;
 
-public class CurrentUser {
+public class UsernameWrapper {
     private String username;
 
     public String getUsername() {
