@@ -27,7 +27,7 @@ public class FileUtils {
         }
     }
 
-    public static void writeLine(Path path, String line) {
+    public static void appendLine(Path path, String line) {
         try {
             Files.write(path, (line + System.lineSeparator()).getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
         } catch (IOException e) {
@@ -35,16 +35,16 @@ public class FileUtils {
         }
     }
 
-    public static void replaceLine(Path path, String line) {
+    public static void overwrite(Path path, String content) {
         try {
-            Files.write(path, (line + System.lineSeparator()).getBytes(StandardCharsets.UTF_8), StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(path, (content + System.lineSeparator()).getBytes(StandardCharsets.UTF_8), StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new IllegalStateException("Can not write file " + path);
         }
     }
 
-    public static void writeLines(Path path, List<String> lines) {
-        lines.forEach(line -> writeLine(path, line));
+    public static void appendLines(Path path, List<String> lines) {
+        lines.forEach(line -> appendLine(path, line));
     }
 
     public static void truncate(Path path) {

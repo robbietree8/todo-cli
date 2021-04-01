@@ -1,7 +1,7 @@
 package io.github.robbietree.command;
 
 import io.github.robbietree.domain.AuthRepository;
-import io.github.robbietree.infra.AuthStorage;
+import io.github.robbietree.domain.SessionRepository;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -17,6 +17,8 @@ public class LoginCommand implements Runnable {
 
     @Inject
     AuthRepository authRepository;
+    @Inject
+    SessionRepository sessionRepository;
 
     @Override
     public void run() {
@@ -27,7 +29,7 @@ public class LoginCommand implements Runnable {
 
         boolean success = authRepository.auth(username, password);
         if(success) {
-            AuthStorage.set(username, success);
+            sessionRepository.createSession(username);
             System.out.println("Login success!");
         }else {
             System.out.println("Login failed!");

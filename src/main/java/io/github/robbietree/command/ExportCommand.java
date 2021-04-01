@@ -2,7 +2,7 @@ package io.github.robbietree.command;
 
 import io.github.robbietree.domain.Item;
 import io.github.robbietree.domain.ItemRepository;
-import io.github.robbietree.infra.AuthStorage;
+import io.github.robbietree.domain.SessionRepository;
 import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
@@ -13,9 +13,12 @@ public class ExportCommand implements Runnable {
     @Inject
     ItemRepository itemRepository;
 
+    @Inject
+    SessionRepository sessionRepository;
+
     @Override
     public void run() {
-        final String currentUser = AuthStorage.getCurrentUser();
+        final String currentUser = sessionRepository.getCurrentUser();
 
         final Collection<Item> items = itemRepository.listAllByUser(currentUser);
         for (Item item : items) {

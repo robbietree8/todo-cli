@@ -21,7 +21,7 @@ public class TodoStorage {
     }
 
     public static void write(String line) {
-        FileUtils.writeLine(LOCATION, line);
+        FileUtils.appendLine(LOCATION, line);
     }
 
     public static void truncate() {

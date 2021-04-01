@@ -2,7 +2,7 @@ package io.github.robbietree.command;
 
 import io.github.robbietree.domain.Item;
 import io.github.robbietree.domain.ItemRepository;
-import io.github.robbietree.infra.AuthStorage;
+import io.github.robbietree.domain.SessionRepository;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
@@ -17,9 +17,12 @@ public class DoneCommand implements Runnable {
     @Inject
     ItemRepository itemRepository;
 
+    @Inject
+    SessionRepository sessionRepository;
+
     @Override
     public void run() {
-        String currentUser = AuthStorage.getCurrentUser();
+        String currentUser = sessionRepository.getCurrentUser();
 
         Optional<Item> itemOpt = itemRepository.findByIndex(currentUser, index);
 
