@@ -4,9 +4,9 @@ import io.github.robbietree.domain.AuthRepository;
 import io.github.robbietree.domain.ItemRepository;
 import io.github.robbietree.infra.DbAuthRepository;
 import io.github.robbietree.infra.DbItemRepository;
-import io.github.robbietree.infra.DbMigration;
 import io.github.robbietree.infra.FileAuthRepository;
 import io.github.robbietree.infra.FileItemRepository;
+import io.github.robbietree.infra.JdbcUtils;
 import io.micronaut.context.annotation.Factory;
 
 import javax.inject.Singleton;
@@ -15,7 +15,7 @@ import javax.inject.Singleton;
 public class BeanConfiguration {
     @Singleton
     public AuthRepository authRepository() {
-        if(DbMigration.isDbReady()) {
+        if(JdbcUtils.isDbReady()) {
             return new DbAuthRepository();
         }else {
             return new FileAuthRepository();
@@ -24,7 +24,7 @@ public class BeanConfiguration {
 
     @Singleton
     public ItemRepository itemRepository() {
-        if(DbMigration.isDbReady()) {
+        if(JdbcUtils.isDbReady()) {
             return new DbItemRepository();
         }else {
             return new FileItemRepository();

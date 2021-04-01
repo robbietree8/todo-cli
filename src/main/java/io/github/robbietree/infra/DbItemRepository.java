@@ -15,7 +15,7 @@ import java.util.Optional;
 public class DbItemRepository implements ItemRepository {
     @Override
     public Long save(Item item) {
-        QueryRunner queryRunner = ConnectionInfoLoader.queryRunner();
+        QueryRunner queryRunner = JdbcUtils.queryRunner();
         try {
             queryRunner.execute("insert into items(item_id, status, owner, content)" +
                     "values (?, ? ,?, ?)",
@@ -28,7 +28,7 @@ public class DbItemRepository implements ItemRepository {
 
     @Override
     public Collection<Item> listAllByUser(String username) {
-        QueryRunner queryRunner = ConnectionInfoLoader.queryRunner();
+        QueryRunner queryRunner = JdbcUtils.queryRunner();
         ResultSetHandler<List<Item>> h = new BeanListHandler<>(Item.class);
         try {
             return queryRunner.query("select item_id as itemIndex, status, owner as username, content " +
@@ -40,7 +40,7 @@ public class DbItemRepository implements ItemRepository {
 
     @Override
     public Optional<Item> findByIndex(String username, Long index) {
-        QueryRunner queryRunner = ConnectionInfoLoader.queryRunner();
+        QueryRunner queryRunner = JdbcUtils.queryRunner();
         ResultSetHandler<Item> h = new BeanHandler<>(Item.class);
 
         try{
@@ -54,7 +54,7 @@ public class DbItemRepository implements ItemRepository {
 
     @Override
     public void update(Item item) {
-        QueryRunner queryRunner = ConnectionInfoLoader.queryRunner();
+        QueryRunner queryRunner = JdbcUtils.queryRunner();
 
         try {
             queryRunner.execute("update items set status = ? where item_id =? and owner = ?",
@@ -66,7 +66,7 @@ public class DbItemRepository implements ItemRepository {
 
     @Override
     public Collection<Item> listAll() {
-        QueryRunner queryRunner = ConnectionInfoLoader.queryRunner();
+        QueryRunner queryRunner = JdbcUtils.queryRunner();
         ResultSetHandler<List<Item>> h = new BeanListHandler<>(Item.class);
         try {
             return queryRunner.query("select item_id as itemIndex, status, owner as username, content " +

@@ -4,9 +4,9 @@ import io.github.robbietree.domain.Authentication;
 import io.github.robbietree.domain.Item;
 import io.github.robbietree.infra.DbAuthRepository;
 import io.github.robbietree.infra.DbItemRepository;
-import io.github.robbietree.infra.DbMigration;
 import io.github.robbietree.infra.FileAuthRepository;
 import io.github.robbietree.infra.FileItemRepository;
+import io.github.robbietree.infra.JdbcUtils;
 import picocli.CommandLine.Command;
 
 import java.util.Collection;
@@ -15,8 +15,8 @@ import java.util.Collection;
 public class InitCommand implements Runnable {
     @Override
     public void run() {
-        if(DbMigration.isDbReady()) {
-            DbMigration.migrate();
+        if(JdbcUtils.isDbReady()) {
+            JdbcUtils.migrate();
 
             migrateAuth();
             migrateItems();

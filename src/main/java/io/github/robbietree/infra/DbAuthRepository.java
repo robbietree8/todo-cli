@@ -12,7 +12,7 @@ public class DbAuthRepository implements AuthRepository {
 
     @Override
     public boolean auth(String username, String password) {
-        QueryRunner queryRunner = ConnectionInfoLoader.queryRunner();
+        QueryRunner queryRunner = JdbcUtils.queryRunner();
 
         ResultSetHandler<String> h = new BeanHandler<>(String.class);
         try {
@@ -25,7 +25,7 @@ public class DbAuthRepository implements AuthRepository {
     }
 
     public void add(String username, String password) {
-        QueryRunner queryRunner = ConnectionInfoLoader.queryRunner();
+        QueryRunner queryRunner = JdbcUtils.queryRunner();
 
         try {
             queryRunner.execute("insert into auth(username, password) values(?, ?)",
