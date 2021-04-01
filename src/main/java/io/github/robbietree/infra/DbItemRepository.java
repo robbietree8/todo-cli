@@ -2,6 +2,7 @@ package io.github.robbietree.infra;
 
 import io.github.robbietree.domain.Item;
 import io.github.robbietree.domain.ItemRepository;
+import io.github.robbietree.domain.ItemStatusEnum;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -58,7 +59,7 @@ public class DbItemRepository implements ItemRepository {
 
         try {
             queryRunner.execute("update items set status = ? where item_id =? and owner = ?",
-                    item.getItemIndex(), item.getUsername());
+                    ItemStatusEnum.DONE.name(), item.getItemIndex(), item.getUsername());
         } catch (SQLException throwable) {
             throw new IllegalStateException("update item failed " + throwable.getMessage());
         }
