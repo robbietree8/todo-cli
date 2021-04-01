@@ -1,0 +1,17 @@
+version: "3.7"
+services:
+  postgresd:
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=pguser
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_MULTIPLE_DATABASES=todo
+    volumes:
+      - ./contrib/pg-init:/docker-entrypoint-initdb.d
+    networks:
+      - intranet
+
+networks:
+  intranet:

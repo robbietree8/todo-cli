@@ -63,7 +63,7 @@ public class JdbcUtils {
 
         ResultSetHandler<DualWrapper> h = new BeanHandler<>(DualWrapper.class);
         try {
-            final DualWrapper rtn = queryRunner.query("select 1 as count from dual", h);
+            final DualWrapper rtn = queryRunner.query("select 1 as count", h);
             return rtn != null && rtn.getCount() == 1;
         } catch (SQLException throwable) {
             logger.error("query failed", throwable);

@@ -11,7 +11,7 @@ public class DbConnection {
     }
 
     public String jdbcUrl() {
-        return String.format("jdbc:mysql://%s:%d/%s", host, port, database);
+        return String.format("jdbc:postgresql://%s:%d/%s", host, port, database);
     }
 
     public String getHost() {
