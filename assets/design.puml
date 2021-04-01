@@ -1,24 +1,26 @@
 @startuml
 package domain {
     class Item {
-        Long index;
+        Long itemIndex;
         String content;
         ItemStatusEnum status;
-        String username;//phase2
+        String username;
     }
 
     interface ItemRepository {
         Long save(Item item);
 
+        Collection<Item> listAllByUser(String username);
+
         Collection<Item> listAll();
 
-        Long nextIndex();
+        Long nextIndex(String username);
 
-        Optional<Item> findByIndex(Long index);
+        Optional<Item> findByIndex(String username, Long index);
 
         void update(Item item);
 
-        Collection<Item> listUnDone();
+        Collection<Item> listUnDone(String username)
     }
 
     enum ItemStatus {
@@ -39,7 +41,9 @@ package command {
 
 package infra {
     class FileItemRepository implements ItemRepository {
+    }
 
+    class DbItemRepository implements ItemRepository {
     }
 }
 
@@ -50,4 +54,6 @@ class TodoCliCommand {
 TodoCliCommand *-- AddCommand
 TodoCliCommand *-- ListCommand
 TodoCliCommand *-- DoneCommand
+
+command -down-> domain
 @enduml

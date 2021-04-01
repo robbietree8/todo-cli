@@ -49,8 +49,4 @@ Total: 1 items, 1 item done
 
 
 
-## 本地可执行文件运行(bean依赖还有点问题, TODO)
 
-```shell
-./build-native.sh
-```
