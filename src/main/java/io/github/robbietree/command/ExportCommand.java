@@ -1,8 +1,8 @@
 package io.github.robbietree.command;
 
 import io.github.robbietree.domain.Item;
-import io.github.robbietree.domain.ItemRepository;
 import io.github.robbietree.domain.SessionRepository;
+import io.github.robbietree.domain.service.ExportService;
 import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
@@ -11,19 +11,18 @@ import java.util.Collection;
 @Command(name = "export", description = "export todo items", mixinStandardHelpOptions = true)
 public class ExportCommand implements Runnable {
     @Inject
-    ItemRepository itemRepository;
+    SessionRepository sessionRepository;
 
     @Inject
-    SessionRepository sessionRepository;
+    ExportService exportService;
 
     @Override
     public void run() {
         final String currentUser = sessionRepository.getCurrentUser();
 
-        final Collection<Item> items = itemRepository.listAllByUser(currentUser);
-        for (Item item : items) {
-            printItem(item);
-        }
+        final Collection<Item> items = exportService.export(currentUser);
+
+        items.forEach(this::printItem);
     }
 
     private void printItem(Item item) {

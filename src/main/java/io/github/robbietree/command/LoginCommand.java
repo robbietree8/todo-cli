@@ -1,7 +1,6 @@
 package io.github.robbietree.command;
 
-import io.github.robbietree.domain.AuthRepository;
-import io.github.robbietree.domain.SessionRepository;
+import io.github.robbietree.domain.service.LoginService;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -16,20 +15,12 @@ public class LoginCommand implements Runnable {
     String password = "";
 
     @Inject
-    AuthRepository authRepository;
-    @Inject
-    SessionRepository sessionRepository;
+    LoginService loginService;
 
     @Override
     public void run() {
-        if(username.isBlank()) {
-            System.out.println("username is necessary");
-            return;
-        }
-
-        boolean success = authRepository.auth(username, password);
+        boolean success = loginService.login(username, password);
         if(success) {
-            sessionRepository.createSession(username);
             System.out.println("Login success!");
         }else {
             System.out.println("Login failed!");
