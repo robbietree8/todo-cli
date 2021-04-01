@@ -5,7 +5,7 @@
 
 ## 设计
 
-![system design](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/robbietree/todo-cli/master/assets/design.puml)
+![system design](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/robbietree8/todo-cli/master/assets/design.puml)
 
 
 ## jar包形式运行
