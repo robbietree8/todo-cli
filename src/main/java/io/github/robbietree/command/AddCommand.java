@@ -3,30 +3,39 @@ package io.github.robbietree.command;
 import io.github.robbietree.domain.SessionRepository;
 import io.github.robbietree.domain.service.AddService;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Parameters;
+import picocli.CommandLine.Spec;
 
-import javax.inject.Inject;
+import java.io.PrintWriter;
 
 @Command(name = "add", description = "Add todo item.", mixinStandardHelpOptions = true)
 public class AddCommand implements Runnable {
+    @Spec
+    CommandSpec spec;
+
     @Parameters(description = "Item content.")
     String content = "";
 
-    @Inject
-    SessionRepository sessionRepository;
+    private final SessionRepository sessionRepository;
+    private final AddService addService;
 
-    @Inject
-    AddService addService;
+    public AddCommand(SessionRepository sessionRepository, AddService addService) {
+        this.sessionRepository = sessionRepository;
+        this.addService = addService;
+    }
 
     @Override
     public void run() {
         String currentUser = sessionRepository.getCurrentUser();
 
-        addService.add(currentUser, content);
-
         Long nextIndex = addService.add(currentUser, content);
 
-        System.out.printf("\n%d. %s\n", nextIndex, content);
-        System.out.printf("\nItem %d added\n", nextIndex);
+        getOut().printf("\n%d. %s\n", nextIndex, content);
+        getOut().printf("\nItem %d added\n", nextIndex);
+    }
+
+    private PrintWriter getOut() {
+        return spec.commandLine().getOut();
     }
 }
